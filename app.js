@@ -1,6 +1,6 @@
-var express = require('express');
-var exphbs  = require('express-handlebars');
-var port = process.env.PORT || 3000;
+const express = require('express');
+const exphbs  = require('express-handlebars');
+const port = process.env.PORT || 3000;
 
 // init mercadopago - config
 const mercadopago = require('mercadopago');
@@ -10,7 +10,8 @@ mercadopago.configure({
 
 });
 
-var app = express();
+const app = express();
+app.use(express.json()); // Middleware
  
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
@@ -93,7 +94,7 @@ app.post('/checkout', (req, res)=>{
     mercadopago.preferences.create(preference)
         .then(response => {
             console.log(response.body);
-            return res.json({id: response.body.id, init_point: response.body.init_point});
+            return res.send({id: response.body.id, init_point: response.body.init_point});
         })
         .catch(e => console.log(e))
 })
