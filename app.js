@@ -51,8 +51,8 @@ app.post('/checkout', (req, res)=>{
                 id: 4321,
                 title: body.title,
                 description: "Dispositivo móvil de Tienda e-commerce",
-                picture_url: body.img,
-                quantity: parseInt(body.unit),
+                picture_url: body.picture_url,
+                quantity: parseInt(body.quantity),
                 unit_price: parseFloat(body.price),
                 category_id: 'phones',
                 currency_id: 'ARS'
@@ -93,7 +93,7 @@ app.post('/checkout', (req, res)=>{
     mercadopago.preferences.create(preference)
         .then(response => {
             console.log(response.body);
-            res.redirect(response.body.init_point);
+            return res.send({ init_point: response.body.init_point });
         })
         .catch(e => console.log(e))
 })
