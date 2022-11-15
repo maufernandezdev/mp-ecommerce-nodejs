@@ -93,7 +93,7 @@ app.post('/checkout', (req, res)=>{
     mercadopago.preferences.create(preference)
         .then(response => {
             console.log(response.body);
-            return res.send({ init_point: response.body.init_point });
+            return res.json({id: response.body.id, init_point: response.body.init_point});
         })
         .catch(e => console.log(e))
 })
