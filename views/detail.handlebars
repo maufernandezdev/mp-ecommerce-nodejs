@@ -83,13 +83,6 @@
                                     {{ unit }}
                                 </h3>
                             </div>
-                            {{!-- <form action="/checkout" method="post">
-                                <input type="hidden" name="price" value="{{ price }}">
-                                <input type="hidden" name="unit" value="{{ unit }}">
-                                <input type="hidden" name="title" value="{{ title }}">
-                                <input type="hidden" name="img" value="{{ img }}">
-                                <button type="submit" class="mercadopago-button" formmethod="post">Pagar la compra</button>
-                            </form> --}}
                             <input type="hidden" id="title" value={{title}}>
                             <input type="hidden" id="unit-price" value={{price}}>
                             <input type="hidden" id="quantity" value={{unit}}>
@@ -104,9 +97,7 @@
 </div>
 <script src="https://www.mercadopago.com/v2/security.js" view="item"></script>
 <script>
-    document.querySelector("#checkout-btn").addEventListener("click", async () => {
-  
-    // $('#checkout-btn').attr("disabled", true);    
+    document.querySelector("#checkout-btn").addEventListener("click", async () => { 
     const orderData = {
         title: document.querySelector("#title").value,
         quantity: document.querySelector("#quantity").value,
@@ -124,7 +115,6 @@
     catch(e)
     {
         console.log("error:" , e);
-        // $('#checkout-btn').attr("disabled", false);
     }
 
     });

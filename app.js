@@ -2,7 +2,6 @@ const express = require('express');
 const exphbs  = require('express-handlebars');
 const port = process.env.PORT || 3000;
 
-// init mercadopago - config
 const mercadopago = require('mercadopago');
 mercadopago.configure({
     access_token: 'APP_USR-8709825494258279-092911-227a84b3ec8d8b30fff364888abeb67a-1160706432',
@@ -11,7 +10,7 @@ mercadopago.configure({
 });
 
 const app = express();
-app.use(express.json()); // Middleware
+app.use(express.json());
  
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
@@ -23,20 +22,17 @@ app.use('/assets', express.static(__dirname + '/assets'));
 app.get('/', function (req, res) {
     res.render('home');
 });
-
 app.get('/detail', function (req, res) {
     res.render('detail', req.query);
 });
 
 // Backs Urls
 app.get('/success', (req, res) => {
-    res.sned('success', req.query.payment_id);
+    res.send('success', req.query.payment_id);
 });
-
 app.get('/failure', (req, res) => {
     res.render('failure', req.query);
 });
-
 app.get('/pending', (req, res) => {
     res.render('pending', req.query);
 });
@@ -44,7 +40,6 @@ app.get('/pending', (req, res) => {
 // POSTs methods
 
 app.post('/checkout', (req, res)=>{
-    
     const { body } = req;
     const preference = {
         items: [
