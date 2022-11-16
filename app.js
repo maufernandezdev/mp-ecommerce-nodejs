@@ -1,6 +1,7 @@
 const express = require('express');
 const exphbs  = require('express-handlebars');
 const port = process.env.PORT || 3000;
+const HOST = 'http://mau-mp-ecommerce-nodejs.herokuapp.com';
 
 const mercadopago = require('mercadopago');
 mercadopago.configure({
@@ -18,27 +19,18 @@ app.set('view engine', 'handlebars');
 app.use(express.static('assets')); 
 app.use('/assets', express.static(__dirname + '/assets'));
 
-// GETs methods
+// GET's methods
 app.get('/', function (req, res) {
     res.render('home');
 });
 app.get('/detail', function (req, res) {
     res.render('detail', req.query);
 });
-
-// Backs Urls
-app.get('/success', (req, res) => {
-    res.send('success', req.query.payment_id);
-});
-app.get('/failure', (req, res) => {
-    res.render('failure', req.query);
-});
-app.get('/pending', (req, res) => {
-    res.render('pending', req.query);
+app.get('/status', (req, res) => {
+    res.render('status', req.query);
 });
 
-// POSTs methods
-
+// POST's methods
 app.post('/checkout', (req, res)=>{
     const { body } = req;
     const preference = {
@@ -78,11 +70,11 @@ app.post('/checkout', (req, res)=>{
             installments: 6
         },
         back_urls: {
-            success: "http://mau-mp-ecommerce-nodejs.herokuapp.com/success",
-            failure: "http://mau-mp-ecommerce-nodejs.herokuapp.com/failure",
-            pending: "http://mau-mp-ecommerce-nodejs.herokuapp.com/pending"
+            success: HOST + 'status',
+            failure: HOST + 'status',
+            pending: HOST + 'status'
         },
-        notification_url: 'http://mau-mp-ecommerce-nodejs.herokuapp.com/webhook',
+        notification_url: HOST + 'webhook',
         auto_return: "approved"
     };
 
@@ -92,7 +84,7 @@ app.post('/checkout', (req, res)=>{
             return res.send({id: response.body.id, init_point: response.body.init_point});
         })
         .catch(e => console.log(e))
-})
+});
 
 app.post('/webhook', (req, res) => {
     console.log(req.body, "Webhook");
