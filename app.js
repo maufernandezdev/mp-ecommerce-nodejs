@@ -70,11 +70,11 @@ app.post('/checkout', (req, res)=>{
             installments: 6
         },
         back_urls: {
-            success: HOST + 'status',
-            failure: HOST + 'status',
-            pending: HOST + 'status'
+            success: HOST + '/status',
+            failure: HOST + '/status',
+            pending: HOST + '/status'
         },
-        notification_url: HOST + 'webhook',
+        notification_url: HOST + '/webhook',
         auto_return: "approved"
     };
 
